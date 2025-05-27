@@ -1,184 +1,602 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>juniOr Status</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="icon" href="Picsart_25-04-26_13-26-17-818.png" type="image/x-icon"> <!-- Favicon added -->
-  <style>
-    body {
-      background-color: #0d0d0d;
-      color: white;
-      font-family: 'Segoe UI', sans-serif;
-      margin: 0;
-      padding: 1.5rem;
-      display: flex;
-      flex-direction: column;
-      min-height: 100vh;
-      align-items: center;
-      justify-content: flex-start;
-    }
-    h1 {
-      text-align: center;
-      font-size: 2.5rem;
-      margin-bottom: 1rem;
-    }
-    .logo {
-      width: 100px; /* Adjust size as needed */
-      height: auto;
-      margin-bottom: 20px;
-    }
-    .status-info {
-      text-align: center;
-      margin-bottom: 2rem;
-    }
-    .status-info p {
-      margin: 5px 0;
-      font-size: 1.3rem;
-    }
-    .legend {
-      display: flex;
-      justify-content: center;
-      flex-wrap: wrap;
-      gap: 15px;
-      margin-bottom: 2rem;
-    }
-    .legend-item {
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      font-size: 1rem;
-    }
-    .legend-color {
-      width: 16px;
-      height: 16px;
-      border-radius: 4px;
-    }
-    .grid {
-      display: grid;
-      grid-template-columns: repeat(10, 1fr);
-      gap: 6px;
-      width: 100%;
-      max-width: 600px;
-    }
-    .square {
-      width: 100%;
-      aspect-ratio: 1;
-      border-radius: 5px;
-      background-color: #555;
-      transition: background 0.3s;
-    }
-    .green {
-      background-color: #2ecc71;
-    }
-    .yellow {
-      background-color: #f1c40f;
-    }
-    .red {
-      background-color: #e74c3c;
-    }
-    @media (max-width: 768px) {
-      h1 {
-        font-size: 2rem;
-      }
-      .status-info p {
-        font-size: 1.1rem;
-      }
-      .grid {
-        grid-template-columns: repeat(5, 1fr);
-        gap: 8px;
-        max-width: 90%;
-      }
-    }
-    @media (max-width: 480px) {
-      .grid {
-        grid-template-columns: repeat(3, 1fr);
-        gap: 10px;
-      }
-      .status-info p {
-        font-size: 1rem;
-      }
-      h1 {
-        font-size: 1.8rem;
-      }
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SpecSearch</title>
+    <link rel="icon" type="image/x-icon" href="Picsart_25-05-07_19-06-34-519.jpg">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background-color: #000000;
+            color: #ffffff;
+            min-height: 100vh;
+        }
+
+        /* Homepage Styles */
+        .homepage {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .title {
+            font-size: 4rem;
+            font-weight: 300;
+            margin-bottom: 2rem;
+            letter-spacing: -2px;
+        }
+
+        .search-container {
+            width: 100%;
+            max-width: 600px;
+            text-align: center;
+        }
+
+        .search-form {
+            margin-bottom: 2rem;
+        }
+
+        .search-wrapper {
+            position: relative;
+            margin-bottom: 1.5rem;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 16px 24px;
+            font-size: 16px;
+            border: 2px solid #333333;
+            border-radius: 50px;
+            background-color: #111111;
+            color: #ffffff;
+            outline: none;
+            transition: all 0.3s ease;
+        }
+
+        .search-input:focus {
+            border-color: #ffffff;
+            box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.1);
+        }
+
+        .search-input::placeholder {
+            color: #888888;
+        }
+
+        .search-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .search-btn {
+            padding: 12px 24px;
+            font-size: 14px;
+            border: 1px solid #333333;
+            border-radius: 6px;
+            background-color: #111111;
+            color: #ffffff;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .search-btn:hover {
+            background-color: #222222;
+            border-color: #555555;
+        }
+
+        .search-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        /* Results Page Styles */
+        .results-page {
+            display: none;
+            min-height: 100vh;
+        }
+
+        .header {
+            padding: 20px;
+            border-bottom: 1px solid #333333;
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 300;
+            color: #ffffff;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        .header-search {
+            flex: 1;
+            max-width: 500px;
+        }
+
+        .header-search-input {
+            width: 100%;
+            padding: 12px 20px;
+            font-size: 16px;
+            border: 1px solid #333333;
+            border-radius: 25px;
+            background-color: #111111;
+            color: #ffffff;
+            outline: none;
+        }
+
+        .header-search-input:focus {
+            border-color: #ffffff;
+        }
+
+        .search-filters {
+            padding: 0 20px;
+            border-bottom: 1px solid #333333;
+        }
+
+        .filter-tabs {
+            display: flex;
+            gap: 30px;
+            padding: 15px 0;
+        }
+
+        .filter-tab {
+            color: #888888;
+            text-decoration: none;
+            padding: 8px 0;
+            border-bottom: 2px solid transparent;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .filter-tab.active {
+            color: #ffffff;
+            border-bottom-color: #ffffff;
+        }
+
+        .filter-tab:hover {
+            color: #ffffff;
+        }
+
+        .results-container {
+            padding: 20px;
+            max-width: 800px;
+        }
+
+        .results-info {
+            color: #888888;
+            font-size: 14px;
+            margin-bottom: 20px;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 40px;
+            color: #888888;
+        }
+
+        .loading-spinner {
+            border: 3px solid #333333;
+            border-top: 3px solid #ffffff;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 20px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .search-result {
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+        }
+
+        .result-source {
+            color: #4A9EFF;
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+            margin-bottom: 5px;
+        }
+
+        .result-url {
+            color: #888888;
+            font-size: 14px;
+            margin-bottom: 5px;
+            text-decoration: none;
+            word-break: break-all;
+        }
+
+        .result-title {
+            color: #4A9EFF;
+            font-size: 20px;
+            font-weight: 400;
+            margin-bottom: 5px;
+            text-decoration: none;
+            line-height: 1.3;
+            display: block;
+        }
+
+        .result-title:hover {
+            text-decoration: underline;
+        }
+
+        .result-description {
+            color: #cccccc;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+
+        .no-results {
+            text-align: center;
+            padding: 40px;
+            color: #888888;
+        }
+
+        .error-message {
+            background-color: #330000;
+            border: 1px solid #660000;
+            color: #ff6666;
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+        }
+
+        @media (max-width: 768px) {
+            .title {
+                font-size: 3rem;
+            }
+            
+            .header {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            
+            .filter-tabs {
+                overflow-x: auto;
+                white-space: nowrap;
+            }
+            
+            .results-container {
+                padding: 15px;
+            }
+        }
+    </style>
 </head>
 <body>
+    <!-- Homepage -->
+    <div id="homepage" class="homepage">
+        <div class="search-container">
+            <h1 class="title">SpecSearch</h1>
+            
+            <form class="search-form" onsubmit="performSearch(event)">
+                <div class="search-wrapper">
+                    <input 
+                        type="text" 
+                        class="search-input" 
+                        placeholder="Search the web..."
+                        id="searchInput"
+                        autocomplete="off"
+                        spellcheck="false"
+                    >
+                </div>
+                
+                <div class="search-buttons">
+                    <button type="submit" class="search-btn" id="searchButton">SpecSearch</button>
+                    <button type="button" class="search-btn" onclick="feelingLucky()">I'm Feeling Lucky</button>
+                </div>
+            </form>
+        </div>
+    </div>
 
-<!-- Logo added above the heading -->
-<img src="Picsart_25-04-26_13-26-17-818.png" alt="juniOr Logo" class="logo">
+    <!-- Results Page -->
+    <div id="resultsPage" class="results-page">
+        <header class="header">
+            <div class="logo" onclick="showHomepage()">SpecSearch</div>
+            <div class="header-search">
+                <input 
+                    type="text" 
+                    class="header-search-input" 
+                    id="headerSearchInput"
+                    placeholder="Search..."
+                    onkeypress="handleHeaderSearch(event)"
+                >
+            </div>
+        </header>
 
-<h1>juniOr Status</h1>
+        <nav class="search-filters">
+            <div class="filter-tabs">
+                <div class="filter-tab active" onclick="setActiveFilter(this, 'all')">All</div>
+                <div class="filter-tab" onclick="setActiveFilter(this, 'wikipedia')">Wikipedia</div>
+                <div class="filter-tab" onclick="setActiveFilter(this, 'news')">News</div>
+                <div class="filter-tab" onclick="setActiveFilter(this, 'reddit')">Reddit</div>
+            </div>
+        </nav>
 
-<div class="status-info">
-  <p id="current-status">Status: Checking...</p>
-  <p id="last-checked">Last Checked: --</p>
-</div>
+        <main class="results-container">
+            <div class="results-info" id="resultsInfo"></div>
+            <div id="searchResults"></div>
+        </main>
+    </div>
 
-<div class="legend">
-  <div class="legend-item"><div class="legend-color green"></div> Normal</div>
-  <div class="legend-item"><div class="legend-color yellow"></div> Slow</div>
-  <div class="legend-item"><div class="legend-color red"></div> Major Outage</div>
-</div>
+    <script>
+        let currentQuery = '';
+        let currentFilter = 'all';
+        let searchStartTime = 0;
 
-<div class="grid" id="grid">
-  <!-- Squares generated here -->
-</div>
+        async function performSearch(event) {
+            event.preventDefault();
+            const query = document.getElementById('searchInput').value.trim();
+            if (query) {
+                await showResults(query);
+            }
+        }
 
-<script>
-const siteUrl = "https://junior.ink"; // Your domain
-const grid = document.getElementById('grid');
-const currentStatusText = document.getElementById('current-status');
-const lastCheckedText = document.getElementById('last-checked');
+        async function handleHeaderSearch(event) {
+            if (event.key === 'Enter') {
+                const query = document.getElementById('headerSearchInput').value.trim();
+                if (query) {
+                    await showResults(query);
+                }
+            }
+        }
 
-// Create 30 squares
-for (let i = 0; i < 30; i++) {
-  const square = document.createElement('div');
-  square.classList.add('square');
-  grid.appendChild(square);
-}
+        async function showResults(query) {
+            currentQuery = query;
+            searchStartTime = Date.now();
+            
+            // Show results page
+            document.getElementById('homepage').style.display = 'none';
+            document.getElementById('resultsPage').style.display = 'block';
+            
+            // Update header search input
+            document.getElementById('headerSearchInput').value = query;
+            
+            // Show loading
+            showLoading();
+            
+            // Perform actual search
+            await searchMultipleSources(query);
+        }
 
-// Check site status with speed test
-async function checkSiteStatus() {
-  const todayIndex = new Date().getDate() - 1;
-  const now = new Date();
+        function showLoading() {
+            document.getElementById('searchResults').innerHTML = `
+                <div class="loading">
+                    <div class="loading-spinner"></div>
+                    <div>Searching the web...</div>
+                </div>
+            `;
+            document.getElementById('resultsInfo').textContent = '';
+        }
 
-  const start = performance.now();
-  try {
-    const response = await fetch(siteUrl, { mode: 'no-cors' });
-    const end = performance.now();
-    const loadTime = end - start; // milliseconds
+        async function searchMultipleSources(query) {
+            const results = [];
+            const errors = [];
 
-    if (loadTime < 1500) {
-      updateSquare(todayIndex, 'green');
-      currentStatusText.textContent = "Status: Online (Fast)";
-    } else if (loadTime < 4000) {
-      updateSquare(todayIndex, 'yellow');
-      currentStatusText.textContent = "Status: Online (Slow)";
-    } else {
-      updateSquare(todayIndex, 'red');
-      currentStatusText.textContent = "Status: Major Outage (Slow/Unresponsive)";
-    }
-  } catch (error) {
-    updateSquare(todayIndex, 'red');
-    currentStatusText.textContent = "Status: Major Outage (Offline)";
-  }
+            try {
+                // Search Wikipedia
+                if (currentFilter === 'all' || currentFilter === 'wikipedia') {
+                    const wikiResults = await searchWikipedia(query);
+                    results.push(...wikiResults);
+                }
 
-  lastCheckedText.textContent = "Last Checked: " + now.toLocaleTimeString();
-}
+                // Search Reddit
+                if (currentFilter === 'all' || currentFilter === 'reddit') {
+                    const redditResults = await searchReddit(query);
+                    results.push(...redditResults);
+                }
 
-function updateSquare(index, status) {
-  const squares = document.querySelectorAll('.square');
-  if (squares[index]) {
-    squares[index].classList.remove('green', 'yellow', 'red');
-    squares[index].classList.add(status);
-  }
-}
+                // Search News (using a news API)
+                if (currentFilter === 'all' || currentFilter === 'news') {
+                    const newsResults = await searchNews(query);
+                    results.push(...newsResults);
+                }
 
-// Set interval to check every 30 seconds
-setInterval(checkSiteStatus, 1 * 1000);
-</script>
+                // Search GitHub
+                if (currentFilter === 'all') {
+                    const githubResults = await searchGitHub(query);
+                    results.push(...githubResults);
+                }
 
+            } catch (error) {
+                errors.push(error.message);
+            }
+
+            displayResults(results, errors);
+        }
+
+        async function searchWikipedia(query) {
+            try {
+                const response = await fetch(`https://en.wikipedia.org/api/rest_v1/page/summary/${encodeURIComponent(query)}`);
+                
+                if (response.ok) {
+                    const data = await response.json();
+                    return [{
+                        source: 'Wikipedia',
+                        url: data.content_urls?.desktop?.page || `https://en.wikipedia.org/wiki/${encodeURIComponent(query)}`,
+                        title: data.title,
+                        description: data.extract || 'No description available.'
+                    }];
+                }
+
+                // Fallback: search for articles
+                const searchResponse = await fetch(`https://en.wikipedia.org/w/api.php?action=query&list=search&srsearch=${encodeURIComponent(query)}&format=json&origin=*`);
+                const searchData = await searchResponse.json();
+                
+                return searchData.query.search.slice(0, 3).map(item => ({
+                    source: 'Wikipedia',
+                    url: `https://en.wikipedia.org/wiki/${encodeURIComponent(item.title)}`,
+                    title: item.title,
+                    description: item.snippet.replace(/<[^>]*>/g, '') || 'No description available.'
+                }));
+            } catch (error) {
+                console.error('Wikipedia search error:', error);
+                return [];
+            }
+        }
+
+        async function searchReddit(query) {
+            try {
+                const response = await fetch(`https://www.reddit.com/search.json?q=${encodeURIComponent(query)}&limit=5`);
+                const data = await response.json();
+                
+                return data.data.children.map(item => ({
+                    source: 'Reddit',
+                    url: `https://reddit.com${item.data.permalink}`,
+                    title: item.data.title,
+                    description: item.data.selftext ? item.data.selftext.substring(0, 200) + '...' : `Posted in r/${item.data.subreddit} • ${item.data.score} upvotes`
+                }));
+            } catch (error) {
+                console.error('Reddit search error:', error);
+                return [];
+            }
+        }
+
+        async function searchNews(query) {
+            try {
+                // Using NewsAPI alternative that supports CORS
+                const response = await fetch(`https://api.rss2json.com/v1/api.json?rss_url=https://news.google.com/rss/search?q=${encodeURIComponent(query)}&hl=en-US&gl=US&ceid=US:en`);
+                const data = await response.json();
+                
+                if (data.status === 'ok') {
+                    return data.items.slice(0, 3).map(item => ({
+                        source: 'News',
+                        url: item.link,
+                        title: item.title,
+                        description: item.description || 'No description available.'
+                    }));
+                }
+                return [];
+            } catch (error) {
+                console.error('News search error:', error);
+                return [];
+            }
+        }
+
+        async function searchGitHub(query) {
+            try {
+                const response = await fetch(`https://api.github.com/search/repositories?q=${encodeURIComponent(query)}&sort=stars&order=desc&per_page=3`);
+                const data = await response.json();
+                
+                return data.items.map(item => ({
+                    source: 'GitHub',
+                    url: item.html_url,
+                    title: item.full_name,
+                    description: item.description || 'No description available.'
+                }));
+            } catch (error) {
+                console.error('GitHub search error:', error);
+                return [];
+            }
+        }
+
+        function displayResults(results, errors) {
+            const searchTime = ((Date.now() - searchStartTime) / 1000).toFixed(2);
+            const resultsContainer = document.getElementById('searchResults');
+            const resultsInfo = document.getElementById('resultsInfo');
+
+            // Update results info
+            resultsInfo.textContent = `About ${results.length} results (${searchTime} seconds)`;
+
+            // Show errors if any
+            let errorHtml = '';
+            if (errors.length > 0) {
+                errorHtml = `<div class="error-message">Some search sources encountered errors: ${errors.join(', ')}</div>`;
+            }
+
+            if (results.length === 0) {
+                resultsContainer.innerHTML = errorHtml + `
+                    <div class="no-results">
+                        <h3>No results found</h3>
+                        <p>Try different keywords or check your spelling.</p>
+                    </div>
+                `;
+                return;
+            }
+
+            // Display results
+            const resultsHtml = results.map(result => `
+                <div class="search-result">
+                    <div class="result-source">${result.source}</div>
+                    <a href="${result.url}" class="result-url" target="_blank">${result.url}</a>
+                    <a href="${result.url}" class="result-title" target="_blank">${result.title}</a>
+                    <div class="result-description">${result.description}</div>
+                </div>
+            `).join('');
+
+            resultsContainer.innerHTML = errorHtml + resultsHtml;
+        }
+
+        function setActiveFilter(element, filter) {
+            // Remove active class from all tabs
+            document.querySelectorAll('.filter-tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            
+            // Add active class to clicked tab
+            element.classList.add('active');
+            currentFilter = filter;
+            
+            // Re-search with new filter
+            if (currentQuery) {
+                showLoading();
+                searchMultipleSources(currentQuery);
+            }
+        }
+
+        function showHomepage() {
+            document.getElementById('homepage').style.display = 'flex';
+            document.getElementById('resultsPage').style.display = 'none';
+            document.getElementById('searchInput').value = '';
+            document.getElementById('searchInput').focus();
+        }
+
+        async function feelingLucky() {
+            const luckySearches = [
+                'interesting facts',
+                'today in history',
+                'amazing discoveries',
+                'cool technology',
+                'space exploration',
+                'artificial intelligence',
+                'quantum physics',
+                'ocean mysteries'
+            ];
+            const randomSearch = luckySearches[Math.floor(Math.random() * luckySearches.length)];
+            await showResults(randomSearch);
+        }
+
+        // Auto-focus search input when page loads
+        window.addEventListener('load', function() {
+            document.getElementById('searchInput').focus();
+        });
+
+        // Keyboard shortcuts
+        document.addEventListener('keydown', function(event) {
+            if (event.key === 'Escape') {
+                showHomepage();
+            }
+        });
+    </script>
 </body>
 </html>
